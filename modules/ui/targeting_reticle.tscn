@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2ysmrvcrn1e5"]
+
+[ext_resource type="Script" path="res://modules/ui/targeting_reticle.gd" id="1_0hdf1"]
+[ext_resource type="Texture2D" uid="uid://caymgymw1uv6u" path="res://modules/ui/assets/crosshair.png" id="1_dxr33"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/root_node.gd" id="2_qhnv1"]
+[ext_resource type="Script" path="res://modules/actions/follow_mouse.gd" id="3_tujd8"]
+
+[node name="Targeting Reticle" type="Sprite2D"]
+texture = ExtResource("1_dxr33")
+script = ExtResource("1_0hdf1")
+
+[node name="RootNode" type="Node" parent="."]
+script = ExtResource("2_qhnv1")
+
+[node name="Follow Mouse" type="Node" parent="RootNode"]
+script = ExtResource("3_tujd8")

@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/sequence_node.png")
+@icon("res://modules/behaviour_tree/assets/sequence_node.png")
 extends ControlNode
 class_name SequenceNode
 

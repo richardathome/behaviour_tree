@@ -1,0 +1,18 @@
+[gd_scene load_steps=6 format=3 uid="uid://426chwioihac"]
+
+[ext_resource type="Script" path="res://modules/player/player.gd" id="1_gca4v"]
+[ext_resource type="PackedScene" uid="uid://vtq1n0enqo6j" path="res://modules/actors/actor.tscn" id="1_go1tf"]
+[ext_resource type="Script" path="res://modules/player/Look At.gd" id="3_60mqe"]
+[ext_resource type="PackedScene" uid="uid://d2ysmrvcrn1e5" path="res://modules/ui/targeting_reticle.tscn" id="3_tqgkb"]
+[ext_resource type="Script" path="res://modules/conditions/is_moving_condition.gd" id="4_bema1"]
+
+[node name="Player" instance=ExtResource("1_go1tf")]
+script = ExtResource("1_gca4v")
+
+[node name="Look At" type="Node" parent="RootNode/SequenceNode" index="0"]
+script = ExtResource("3_60mqe")
+
+[node name="IsMovingCondition" parent="RootNode/SequenceNode/SelectorNode/Moving" index="0"]
+script = ExtResource("4_bema1")
+
+[node name="Targeting Reticle" parent="." index="4" instance=ExtResource("3_tqgkb")]

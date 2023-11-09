@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/repeater_node.png")
+@icon("res://modules/behaviour_tree/assets/repeater_node.png")
 extends ControlNode
 class_name RepeatNode
 

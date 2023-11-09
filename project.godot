@@ -11,17 +11,17 @@ config_version=5
 [application]
 
 config/name="behaviour_tree_2"
-run/main_scene="res://modules/locations/test_location.tscn"
+run/main_scene="res://modules/locations/test_scene.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
+
+[aseprite_importers]
+
+aseprite_executable_path="D:/Program Files (x86)/Steam/steamapps/common/Aseprite/Aseprite.exe"
 
 [display]
 
 window/size/mode=3
 window/stretch/mode="canvas_items"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/nklbdev.aseprite_importers/plugin.cfg")
 
 [input]
 

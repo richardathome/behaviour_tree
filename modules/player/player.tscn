@@ -1,7 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://426chwioihac"]
+[gd_scene load_steps=6 format=3 uid="uid://426chwioihac"]
 
 [ext_resource type="Script" path="res://modules/player/player.gd" id="1_gca4v"]
 [ext_resource type="PackedScene" uid="uid://vtq1n0enqo6j" path="res://modules/actors/actor.tscn" id="1_go1tf"]
+[ext_resource type="Script" path="res://modules/actions/look_at_target_action.gd" id="3_few2e"]
+[ext_resource type="PackedScene" uid="uid://d2ysmrvcrn1e5" path="res://modules/ui/targeting_reticle.tscn" id="3_tqgkb"]
+[ext_resource type="Script" path="res://modules/actions/determine_player_direction_action.gd" id="4_2hlcs"]
 
 [node name="Player" instance=ExtResource("1_go1tf")]
 script = ExtResource("1_gca4v")
+
+[node name="Sprite2D" parent="." index="0"]
+hframes = 8
+vframes = 1
+
+[node name="Look At Target" type="Node" parent="RootNode/SequenceNode" index="0"]
+script = ExtResource("3_few2e")
+target = Object(Sprite2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"texture":Resource("res://modules/ui/assets/crosshair.png"),"centered":true,"offset":Vector2(0, 0),"flip_h":false,"flip_v":false,"hframes":1,"vframes":1,"frame":0,"region_enabled":false,"region_rect":Rect2(0, 0, 0, 0),"region_filter_clip_enabled":false,"script":Resource("res://modules/ui/targeting_reticle.gd"))
+
+
+[node name="Determine Player Direction" type="Node" parent="RootNode/SequenceNode" index="1"]
+script = ExtResource("4_2hlcs")
+
+[node name="Targeting Reticle" parent="." index="4" instance=ExtResource("3_tqgkb")]

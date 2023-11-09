@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/random_selector_node.png")
+@icon("res://modules/behaviour_tree/assets/random_selector_node.png")
 extends SelectorNode
 class_name RandomSelectorNode
 

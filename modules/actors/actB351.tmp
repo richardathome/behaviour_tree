@@ -1,0 +1,111 @@
+[gd_scene load_steps=14 format=3 uid="uid://vtq1n0enqo6j"]
+
+[ext_resource type="Script" path="res://modules/actors/actor.gd" id="1_hus8e"]
+[ext_resource type="Script" path="res://modules/behaviour_tree/root_node.gd" id="2_ks0of"]
+[ext_resource type="Texture2D" uid="uid://fcpp5kmse3de" path="res://modules/player/assets/player_sprite.png" id="2_rnqrp"]
+[ext_resource type="Script" path="res://modules/behaviour_tree/controls/selector_node.gd" id="3_7yvge"]
+[ext_resource type="Script" path="res://modules/behaviour_tree/controls/sequence_node.gd" id="4_5lm8q"]
+[ext_resource type="Script" path="res://modules/behaviour_tree/decorators/inverter_decorator_node.gd" id="5_yetrf"]
+[ext_resource type="Script" path="res://modules/conditions/is_moving_condition.gd" id="7_dmj8k"]
+[ext_resource type="Script" path="res://modules/actions/play_animation.gd" id="8_2seqo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4m0h8"]
+
+[sub_resource type="Animation" id="Animation_raxwo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_u0plb"]
+resource_name = "idle_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0bvsc"]
+_data = {
+"RESET": SubResource("Animation_raxwo"),
+"idle_down": SubResource("Animation_u0plb")
+}
+
+[sub_resource type="GDScript" id="GDScript_6gsev"]
+script/source = "extends ConditionNode
+class_name IsMovingConditionx
+
+func tick(actor: Node, blackboard: Blackboard) -> NodeStatus:
+	assert(actor is Actor, \"actor is not an Actor\")
+	actor = actor as Actor
+
+	if actor.direction == Vector2.ZERO:
+		return NodeStatus.SUCCESS
+
+	return NodeStatus.FAILED
+"
+
+[node name="Actor" type="CharacterBody2D"]
+script = ExtResource("1_hus8e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_rnqrp")
+hframes = 3
+vframes = 3
+frame = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4m0h8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0bvsc")
+}
+
+[node name="RootNode" type="Node" parent="."]
+script = ExtResource("2_ks0of")
+
+[node name="SequenceNode" type="Node" parent="RootNode"]
+script = ExtResource("4_5lm8q")
+
+[node name="SelectorNode" type="Node" parent="RootNode/SequenceNode"]
+script = ExtResource("3_7yvge")
+
+[node name="Idle" type="Node" parent="RootNode/SequenceNode/SelectorNode"]
+script = ExtResource("4_5lm8q")
+
+[node name="InverterDecorator" type="Node" parent="RootNode/SequenceNode/SelectorNode/Idle"]
+script = ExtResource("5_yetrf")
+
+[node name="IsMovingCondition" type="Node" parent="RootNode/SequenceNode/SelectorNode/Idle/InverterDecorator"]
+script = ExtResource("7_dmj8k")
+
+[node name="PlayAnimationAction" type="Node" parent="RootNode/SequenceNode/SelectorNode/Idle"]
+script = ExtResource("8_2seqo")
+animation_root = "idle"
+
+[node name="Moving" type="Node" parent="RootNode/SequenceNode/SelectorNode"]
+script = ExtResource("4_5lm8q")
+
+[node name="IsMovingCondition" type="Node" parent="RootNode/SequenceNode/SelectorNode/Moving"]
+script = SubResource("GDScript_6gsev")
+
+[node name="PlayAnimationAction" type="Node" parent="RootNode/SequenceNode/SelectorNode/Moving"]
+script = ExtResource("8_2seqo")
+animation_root = "move"

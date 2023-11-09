@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/blackboard.png")
+@icon("res://modules/behaviour_tree/assets/blackboard.png")
 extends Node
 class_name Blackboard
 

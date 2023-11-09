@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/node.png")
+@icon("res://modules/behaviour_tree/assets/node.png")
 extends BehaviourTree
 class_name TreeNode
 

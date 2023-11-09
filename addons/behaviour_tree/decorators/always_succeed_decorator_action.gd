@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/always_succeed_decorator.png")
+@icon("res://modules/behaviour_tree/assets/always_succeed_decorator.png")
 extends DecoratorNode
 class_name AlwaysSucceedDecorator
 

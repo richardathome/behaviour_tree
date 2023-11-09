@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/inverter_decorator.png")
+@icon("res://modules/behaviour_tree/assets/inverter_decorator.png")
 extends DecoratorNode
 class_name InverterDecorator
 

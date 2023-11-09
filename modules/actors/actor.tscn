@@ -1,12 +1,219 @@
-[gd_scene load_steps=2 format=3 uid="uid://vtq1n0enqo6j"]
+[gd_scene load_steps=20 format=3 uid="uid://vtq1n0enqo6j"]
 
 [ext_resource type="Script" path="res://modules/actors/actor.gd" id="1_hus8e"]
+[ext_resource type="Texture2D" uid="uid://fcpp5kmse3de" path="res://modules/player/assets/player_sprite.png" id="2_rnqrp"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/root_node.gd" id="3_8k1ll"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/controls/sequence_node.gd" id="4_2qyb5"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/controls/selector_node.gd" id="5_24g5q"]
+[ext_resource type="Script" path="res://modules/actions/play_animation.gd" id="8_2seqo"]
+[ext_resource type="Script" path="res://modules/actions/determine_velocity.gd" id="9_oqanc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4m0h8"]
+
+[sub_resource type="Animation" id="Animation_raxwo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_u0plb"]
+resource_name = "idle_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_f3crd"]
+resource_name = "idle_downleft"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_rwm1y"]
+resource_name = "idle_downright"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_grayy"]
+resource_name = "idle_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_h61vl"]
+resource_name = "idle_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_2gkfp"]
+resource_name = "idle_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_4oujo"]
+resource_name = "idle_upleft"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_atpj2"]
+resource_name = "idle_upright"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0bvsc"]
+_data = {
+"RESET": SubResource("Animation_raxwo"),
+"idle_down": SubResource("Animation_u0plb"),
+"idle_downleft": SubResource("Animation_f3crd"),
+"idle_downright": SubResource("Animation_rwm1y"),
+"idle_left": SubResource("Animation_grayy"),
+"idle_right": SubResource("Animation_h61vl"),
+"idle_up": SubResource("Animation_2gkfp"),
+"idle_upleft": SubResource("Animation_4oujo"),
+"idle_upright": SubResource("Animation_atpj2")
+}
+
+[sub_resource type="GDScript" id="GDScript_6gsev"]
+script/source = "extends ConditionNode
+class_name IsMovingConditionx
+
+func tick(actor: Node, _blackboard: Blackboard) -> NodeStatus:
+	assert(actor is Actor, \"actor is not an Actor\")
+	actor = actor as Actor
+
+	if actor.direction == Vector2.ZERO:
+		return NodeStatus.SUCCESS
+
+	return NodeStatus.FAILED
+"
 
 [node name="Actor" type="CharacterBody2D"]
 script = ExtResource("1_hus8e")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_rnqrp")
+hframes = 3
+vframes = 3
+frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4m0h8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0bvsc")
+}
+
+[node name="RootNode" type="Node" parent="."]
+script = ExtResource("3_8k1ll")
+
+[node name="SequenceNode" type="Node" parent="RootNode"]
+script = ExtResource("4_2qyb5")
+
+[node name="SelectorNode" type="Node" parent="RootNode/SequenceNode"]
+script = ExtResource("5_24g5q")
+
+[node name="Moving" type="Node" parent="RootNode/SequenceNode/SelectorNode"]
+script = ExtResource("4_2qyb5")
+
+[node name="is moving?" type="Node" parent="RootNode/SequenceNode/SelectorNode/Moving"]
+script = SubResource("GDScript_6gsev")
+
+[node name="PlayAnimationAction" type="Node" parent="RootNode/SequenceNode/SelectorNode/Moving"]
+script = ExtResource("8_2seqo")
+animation_root = "move"
+
+[node name="Idle" type="Node" parent="RootNode/SequenceNode/SelectorNode"]
+script = ExtResource("4_2qyb5")
+
+[node name="PlayAnimationAction" type="Node" parent="RootNode/SequenceNode/SelectorNode/Idle"]
+script = ExtResource("8_2seqo")
+animation_root = "idle"
+
+[node name="Set Volicity" type="Node" parent="RootNode/SequenceNode"]
+script = ExtResource("9_oqanc")

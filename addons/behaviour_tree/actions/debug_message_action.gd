@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/debug_message_action.png")
+@icon("res://modules/behaviour_tree/assets/debug_message_action.png")
 extends ActionNode
 class_name DebugMessageAction
 

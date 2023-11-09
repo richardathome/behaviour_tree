@@ -1,4 +1,4 @@
-@icon("res://addon/behaviour_tree/assets/blackboard_condition.png")
+@icon("res://modules/behaviour_tree/assets/blackboard_condition.png")
 extends ConditionNode
 class_name CompareBbEntriesCondition
 

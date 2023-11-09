@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://chx4ne6q8v51b"]
+
+[ext_resource type="Script" path="res://modules/behaviour_tree/root_node.gd" id="1_ds4yj"]
+[ext_resource type="Script" path="res://modules/ui/follow_camera_2d.gd" id="1_xnlce"]
+[ext_resource type="Script" path="res://modules/actions/follow_target_action.gd" id="2_4jih2"]
+[ext_resource type="Script" path="res://modules/actions/determine_zoom_action.gd" id="3_li0af"]
+
+[node name="FollowCamera2D" type="Camera2D"]
+script = ExtResource("1_xnlce")
+
+[node name="RootNode" type="Node" parent="."]
+script = ExtResource("1_ds4yj")
+
+[node name="Follow Target" type="Node" parent="RootNode"]
+script = ExtResource("2_4jih2")
+
+[node name="Determine Zoom" type="Node" parent="RootNode"]
+script = ExtResource("3_li0af")
