@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://c73lxwyg68w25"]
+
+[ext_resource type="Script" path="res://actor.gd" id="1_e2sfc"]
+[ext_resource type="Script" path="res://behaviour_tree/behaviour_tree.gd" id="2_c3wyy"]
+[ext_resource type="Script" path="res://behaviour_tree/sequence_node.gd" id="3_xrvuq"]
+[ext_resource type="Script" path="res://debug_out_action.gd" id="4_vlmdy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_51tbo"]
+
+[node name="Actor" type="CharacterBody2D"]
+script = ExtResource("1_e2sfc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_51tbo")
+
+[node name="BehaviourTree" type="Node" parent="."]
+script = ExtResource("2_c3wyy")
+
+[node name="SequenceNode" type="Node" parent="BehaviourTree"]
+script = ExtResource("3_xrvuq")
+
+[node name="DebugOut" type="Node" parent="BehaviourTree/SequenceNode"]
+script = ExtResource("4_vlmdy")
+key = &"message"
